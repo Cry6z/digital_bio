@@ -174,6 +174,7 @@
                 <div class="album-hole"></div>
             </div>
             <div class="song-info">
+                <span class="playlist-badge" onclick="switchPlaylist()" title="Ganti Playlist" id="playlist-name">ADTurnUp Mix</span>
                 <p class="song-title">Nama Lagu</p>
                 <p class="song-artist">Nama Artis</p>
             </div>
@@ -246,18 +247,61 @@
             }
         }
 
-        // Playlist Lagu: Isi 3 lagu Anda di sini!
-        const playlist = [
-            { title: "Late Night Drive", artist: "AdTurnUp", src: "music/latenightdrive.mp3", cover: "disk/latenightdrive.png" },
-            { title: "Midnight Club", artist: "AdTurnUp", src: "music/midnightclub.mp3", cover: "disk/midnightclub.png" },
-            { title: "9PM In LA", artist: "AdTurnUp", src: "music/9pmla.mp3", cover: "disk/9pmla.png" }
+        // Multi-Playlist Database: Khusus 2 Playlist (ADTurnUp & siggerr)
+        const allPlaylists = [
+            {
+                name: "ADTurnUp Mix",
+                songs: [
+                    { title: "Late Night Drive", artist: "ADTurnUp", src: "music/latenightdrive.mp3", cover: "disk/latenightdrive.png" },
+                    { title: "Midnight Club", artist: "ADTurnUp", src: "music/midnightclub.mp3", cover: "disk/midnightclub.png" },
+                    { title: "9PM In LA", artist: "ADTurnUp", src: "music/9pmla.mp3", cover: "disk/9pmla.png" },
+                    { title: "stargirl", artist: "ADTurnUp", src: "music/stargirl.mp3", cover: "disk/stargirl.png" },
+                    { title: "heavenly ahh beat (slowed)", artist: "ADTurnUp", src: "music/heavenly.mp3", cover: "disk/heavenly.png" }
+                ]
+            },
+            {
+                name: "siggerr Mix",
+                songs: [
+                    // Silakan isi lagu-lagu siggerr di sini:
+                    { title: "Turned Away", artist: "siggerr", src: "music/turnedaway.mp3", cover: "disk/turnedaway.png" },
+                    { title: "Come Back With Me", artist: "siggerr", src: "music/comeback.mp3", cover: "disk/comeback.png" },
+                    { title: "One Day", artist: "siggerr", src: "music/oneday.mp3", cover: "disk/oneday.png" },
+                    { title: "Still Fall In Love", artist: "siggerr", src: "music/stillfallinlove.mp3", cover: "disk/stillfallinlove.png" }
+                ]
+            }
         ];
+
+        let currentPlaylistIndex = 0;
+        let playlist = allPlaylists[currentPlaylistIndex].songs;
         let currentSongIndex = Math.floor(Math.random() * playlist.length);
+
+        function switchPlaylist() {
+            // Lompat ke playlist selanjutnya (akan balik ke 0 jika sudah di akhir)
+            currentPlaylistIndex = (currentPlaylistIndex + 1) % allPlaylists.length;
+            playlist = allPlaylists[currentPlaylistIndex].songs;
+            
+            // Re-acak lagu agar tidak membosankan saat pindah playlist
+            currentSongIndex = Math.floor(Math.random() * playlist.length);
+            
+            // Cek apakah musiknya sedang jalan atau tidak
+            var audio = document.getElementById('bg-music');
+            var isPlaying = !audio.paused && audio.currentTime > 0;
+            // Fallback checking button state on slow buffers
+            if (audio.paused) isPlaying = document.getElementById('pause-icon').style.display === 'block';
+
+            loadSong(currentSongIndex);
+            
+            if (isPlaying) {
+                audio.play();
+            }
+        }
 
         function loadSong(index) {
             var audio = document.getElementById('bg-music');
             var albumArt = document.getElementById('album-art');
 
+            // Perbarui NAMA badge playlist dan metadata teksnya
+            document.getElementById('playlist-name').innerText = allPlaylists[currentPlaylistIndex].name;
             document.querySelector('.song-title').innerText = playlist[index].title;
             document.querySelector('.song-artist').innerText = playlist[index].artist;
             albumArt.src = playlist[index].cover;
