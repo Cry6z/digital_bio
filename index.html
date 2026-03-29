@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yoo</title>
+    <title>bran</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap"
@@ -38,7 +38,20 @@
             <!-- Profile Header -->
             <div class="profile-wrapper">
                 <div class="pulse-ring"></div>
-                <img src="agib.png" alt="Gibran Profile" class="profile-img" onclick="toggleZoom()">
+                <!-- 3D Flip Profile Container -->
+                <div class="profile-flip-container">
+                    <div class="profile-flip-inner">
+                        <!-- Front (Foto Utama) -->
+                        <div class="profile-flip-front">
+                            <img src="agib.png" alt="Gibran Profile" class="profile-img" onclick="toggleZoom(this.src)">
+                        </div>
+                        <!-- Back (Foto Rahasia Cadangan) -->
+                        <div class="profile-flip-back">
+                            <!-- Ganti 'agib2.png' di bawah ini menjadi nama file foto kedua Anda -->
+                            <img src="agib2.png" alt="Gibran Alt Profile" class="profile-img" onclick="toggleZoom(this.src)">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="header-text">
@@ -149,8 +162,8 @@
     </div>
 
     <!-- Lightbox Overlay -->
-    <div id="lightbox" class="lightbox" onclick="toggleZoom()">
-        <img src="agib.png" class="lightbox-img">
+    <div id="lightbox" class="lightbox" onclick="toggleZoom(null)">
+        <img src="agib.png" class="lightbox-img" id="lightbox-img">
     </div>
 
     <!-- Floating Music Player -->
@@ -212,9 +225,16 @@
     </div>
 
     <script>
-        function toggleZoom() {
+        function toggleZoom(src) {
             var lightbox = document.getElementById('lightbox');
-            lightbox.classList.toggle('active');
+            var lightboxImg = document.getElementById('lightbox-img');
+
+            if (typeof src === 'string') {
+                lightboxImg.src = src;
+                lightbox.classList.add('active');
+            } else {
+                lightbox.classList.remove('active');
+            }
         }
 
         // Playlist Lagu: Isi 3 lagu Anda di sini!
@@ -428,6 +448,42 @@
 
             setTimeout(typeWriter, typeSpeed);
         }
+
+        // --- Fitur Rahasia: Swipe Geser Untuk Balik Foto ---
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        function handleSwipeGesture(e) {
+            // Jangan membalik foto jika pengguna sedang menggeser progress-bar musik
+            if (e.target.closest('.music-player') || e.target.closest('.links-container')) return;
+
+            // Jika pergeseran horizontal lebih dari 80px
+            if (Math.abs(touchendX - touchstartX) > 80) {
+                var flipContainer = document.querySelector('.profile-flip-container');
+                if (flipContainer) {
+                    flipContainer.classList.toggle('flipped');
+                }
+            }
+        }
+        
+        // Cek geseran mouse komputer
+        document.addEventListener('mousedown', e => {
+            touchstartX = e.clientX;
+        });
+        document.addEventListener('mouseup', e => {
+            touchendX = e.clientX;
+            handleSwipeGesture(e);
+        });
+
+        // Cek geseran sentuhan layar HP
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        });
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleSwipeGesture(e);
+        });
+
     </script>
 </body>
 

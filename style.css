@@ -140,23 +140,56 @@ body::before {
     margin-bottom: 1.5rem;
 }
 
-.profile-img {
+/* 3D Flip Profile */
+.profile-flip-container {
     width: 130px;
     height: 130px;
+    position: relative;
+    z-index: 2;
+    perspective: 1000px; /* 3D effect depth */
+    cursor: pointer;
+}
+
+.profile-flip-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Smooth elastic rotation */
+    transform-style: preserve-3d;
+}
+
+/* Changed from hover to swiped class for secret flip */
+.profile-flip-container.flipped .profile-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.profile-flip-front, .profile-flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Fix flickering on Safari */
+    backface-visibility: hidden;
+    border-radius: 50%;
+}
+
+.profile-flip-back {
+    transform: rotateY(180deg); /* Start flipped backward */
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid var(--text-secondary);
     box-shadow: var(--shadow-md);
-    position: relative;
-    z-index: 2;
     background-color: #000;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
 }
 
-.profile-img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+.profile-flip-container:hover .profile-img,
+.profile-flip-container.flipped .profile-img {
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15); /* Subtle glow during hover or flip */
 }
 
 .pulse-ring {
@@ -455,7 +488,7 @@ body::before {
         width: 100%;
     }
 
-    .profile-img {
+    .profile-flip-container {
         width: 110px;
         height: 110px;
     }
