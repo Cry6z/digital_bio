@@ -158,7 +158,7 @@ body::before {
     transform-style: preserve-3d;
 }
 
-/* Changed from hover to swiped class for secret flip */
+/* Di-handle oleh JS Drag / Swipe class toggler */
 .profile-flip-container.flipped .profile-flip-inner {
     transform: rotateY(180deg);
 }
@@ -187,9 +187,9 @@ body::before {
     transition: box-shadow 0.3s ease;
 }
 
-.profile-flip-container:hover .profile-img,
-.profile-flip-container.flipped .profile-img {
-    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15); /* Subtle glow during hover or flip */
+.profile-flip-container.flipped .profile-img,
+.profile-flip-container:hover .profile-img {
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15); /* Subtle glow during flip */
 }
 
 .pulse-ring {

@@ -39,16 +39,16 @@
             <div class="profile-wrapper">
                 <div class="pulse-ring"></div>
                 <!-- 3D Flip Profile Container -->
-                <div class="profile-flip-container">
+                <div class="profile-flip-container" id="profile-card">
                     <div class="profile-flip-inner">
                         <!-- Front (Foto Utama) -->
                         <div class="profile-flip-front">
-                            <img src="agib.png" alt="Gibran Profile" class="profile-img" onclick="toggleZoom(this.src)">
+                            <img src="agib.png" alt="Gibran Profile" class="profile-img">
                         </div>
                         <!-- Back (Foto Rahasia Cadangan) -->
                         <div class="profile-flip-back">
                             <!-- Ganti 'agib2.png' di bawah ini menjadi nama file foto kedua Anda -->
-                            <img src="agib2.png" alt="Gibran Alt Profile" class="profile-img" onclick="toggleZoom(this.src)">
+                            <img src="agib2.png" alt="Gibran Alt Profile" class="profile-img">
                         </div>
                     </div>
                 </div>
@@ -449,41 +449,49 @@
             setTimeout(typeWriter, typeSpeed);
         }
 
-        // --- Fitur Rahasia: Swipe Geser Untuk Balik Foto ---
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        function handleSwipeGesture(e) {
-            // Jangan membalik foto jika pengguna sedang menggeser progress-bar musik
-            if (e.target.closest('.music-player') || e.target.closest('.links-container')) return;
+        // --- Fitur Swipe/Drag pada Foto Profil ---
+        const profileCard = document.getElementById('profile-card');
+        let cardStartX = 0;
+        let isCardDragging = false;
 
-            // Jika pergeseran horizontal lebih dari 80px
-            if (Math.abs(touchendX - touchstartX) > 80) {
-                var flipContainer = document.querySelector('.profile-flip-container');
-                if (flipContainer) {
-                    flipContainer.classList.toggle('flipped');
-                }
+        profileCard.addEventListener('mousedown', (e) => {
+            cardStartX = e.clientX;
+            isCardDragging = true;
+            // Prevent default drag agar gambar tidak terseret secara native
+            e.preventDefault(); 
+        });
+
+        profileCard.addEventListener('mouseup', (e) => {
+            if(!isCardDragging) return;
+            isCardDragging = false;
+            let cardEndX = e.clientX;
+            handleCardPhysics(cardStartX, cardEndX, e.target);
+        });
+
+        profileCard.addEventListener('touchstart', (e) => {
+            cardStartX = e.changedTouches[0].screenX;
+            isCardDragging = true;
+        });
+
+        profileCard.addEventListener('touchend', (e) => {
+            if(!isCardDragging) return;
+            isCardDragging = false;
+            let cardEndX = e.changedTouches[0].screenX;
+            handleCardPhysics(cardStartX, cardEndX, e.target);
+        });
+
+        function handleCardPhysics(start, end, targetElem) {
+            const swipeDistance = Math.abs(end - start);
+            
+            // Jika digeser lebih dari 20px -> MUTER
+            if (swipeDistance > 20) {
+                profileCard.classList.toggle('flipped');
+            } 
+            // Jika cuma ditekan singkat (klik biasa) -> BUKA LIGHTBOX
+            else if (targetElem.tagName === 'IMG') {
+                toggleZoom(targetElem.src);
             }
         }
-        
-        // Cek geseran mouse komputer
-        document.addEventListener('mousedown', e => {
-            touchstartX = e.clientX;
-        });
-        document.addEventListener('mouseup', e => {
-            touchendX = e.clientX;
-            handleSwipeGesture(e);
-        });
-
-        // Cek geseran sentuhan layar HP
-        document.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        });
-        document.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipeGesture(e);
-        });
-
     </script>
 </body>
 
