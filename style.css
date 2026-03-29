@@ -44,7 +44,8 @@ body {
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-    transform: translateZ(0); /* Hardware acceleration */
+    transform: translateZ(0);
+    /* Hardware acceleration */
     will-change: transform;
 }
 
@@ -81,7 +82,8 @@ body::before {
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
     opacity: 0;
     transform: translateY(20px);
-    will-change: transform, opacity; /* GPU Compositing layer */
+    will-change: transform, opacity;
+    /* GPU Compositing layer */
 }
 
 .container.loaded {
@@ -98,6 +100,7 @@ body::before {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+
     to {
         opacity: 0;
         transform: translateY(40px) scale(0.95);
@@ -146,7 +149,8 @@ body::before {
     height: 130px;
     position: relative;
     z-index: 2;
-    perspective: 1000px; /* 3D effect depth */
+    perspective: 1000px;
+    /* 3D effect depth */
     cursor: pointer;
 }
 
@@ -154,7 +158,8 @@ body::before {
     width: 100%;
     height: 100%;
     position: relative;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Smooth elastic rotation */
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Smooth elastic rotation */
     transform-style: preserve-3d;
 }
 
@@ -163,17 +168,20 @@ body::before {
     transform: rotateY(180deg);
 }
 
-.profile-flip-front, .profile-flip-back {
+.profile-flip-front,
+.profile-flip-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden; /* Fix flickering on Safari */
+    -webkit-backface-visibility: hidden;
+    /* Fix flickering on Safari */
     backface-visibility: hidden;
     border-radius: 50%;
 }
 
 .profile-flip-back {
-    transform: rotateY(180deg); /* Start flipped backward */
+    transform: rotateY(180deg);
+    /* Start flipped backward */
 }
 
 .profile-img {
@@ -189,7 +197,8 @@ body::before {
 
 .profile-flip-container.flipped .profile-img,
 .profile-flip-container:hover .profile-img {
-    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15); /* Subtle glow during flip */
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+    /* Subtle glow during flip */
 }
 
 .pulse-ring {
@@ -251,7 +260,8 @@ body::before {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    height: 250px; /* Pas untuk 4 link dengan padding normal */
+    height: 250px;
+    /* Pas untuk 4 link dengan padding normal */
     overflow-y: auto;
     padding-right: 0.5rem;
     padding-bottom: 0.5rem;
@@ -261,14 +271,17 @@ body::before {
 .links-container::-webkit-scrollbar {
     width: 6px;
 }
+
 .links-container::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
 }
+
 .links-container::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
 }
+
 .links-container::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.4);
 }
@@ -319,14 +332,37 @@ body::before {
     transform: translateX(100%);
 }
 
-.link-card:nth-child(1) { animation-delay: 0.2s; }
-.link-card:nth-child(2) { animation-delay: 0.3s; }
-.link-card:nth-child(3) { animation-delay: 0.4s; }
-.link-card:nth-child(4) { animation-delay: 0.5s; }
-.link-card:nth-child(5) { animation-delay: 0.6s; }
-.link-card:nth-child(6) { animation-delay: 0.7s; }
-.link-card:nth-child(7) { animation-delay: 0.8s; }
-.link-card:nth-child(8) { animation-delay: 0.9s; }
+.link-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.link-card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.link-card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.link-card:nth-child(4) {
+    animation-delay: 0.5s;
+}
+
+.link-card:nth-child(5) {
+    animation-delay: 0.6s;
+}
+
+.link-card:nth-child(6) {
+    animation-delay: 0.7s;
+}
+
+.link-card:nth-child(7) {
+    animation-delay: 0.8s;
+}
+
+.link-card:nth-child(8) {
+    animation-delay: 0.9s;
+}
 
 .link-icon {
     display: flex;
@@ -422,7 +458,8 @@ body::before {
 /* --- Foreshadow Preview Overlay --- */
 .link-preview {
     position: fixed;
-    pointer-events: none; /* Mencegah preview memblokir klik kursor */
+    pointer-events: none;
+    /* Mencegah preview memblokir klik kursor */
     z-index: 9999;
     opacity: 0;
     transform: scale(0.8) translateY(10px);
@@ -491,32 +528,8 @@ body::before {
 /* Responsive: switch back to vertical on narrow screens */
 @media (max-width: 768px) {
     :root {
-        --glass-blur: none; /* Matikan TOTAL efek blur tembus kaca di HP */
-    }
-
-    body {
-        background-color: #0d1117; /* Warna fallback gelap elegan saat CPU diistirahatkan */
-    }
-
-    /* MATIKAN VIDEO: Pembunuh baterai & pembuat Lag no. 1 di HP */
-    .bg-video {
-        display: none !important;
-    }
-
-    /* GANTI BOX BLUR MENJADI WARNA SOLID AGAR TETAP TERLIHAT MEWAH NAMUN 0% GPU LOAD */
-    .container, 
-    .music-player, 
-    .link-card, 
-    .bottom-right-controls {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        background: rgba(22, 27, 34, 0.95) !important; /* Warna dark solid layaknya efek kaca buram */
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important; /* Pertajam bayangan tanpa memberatkan CPU */
-    }
-
-    /* Matikan animasi bergetar terus-menerus */
-    .pulse-ring {
-        display: none !important;
+        --glass-blur: blur(12px);
+        /* Meringankan beban GPU HP secara dramatis */
     }
 
     body {
@@ -615,7 +628,8 @@ body::before {
     animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     animation-delay: 0.8s;
     opacity: 0;
-    will-change: transform, opacity; /* Optimalisasi repainting GPU */
+    will-change: transform, opacity;
+    /* Optimalisasi repainting GPU */
 }
 
 .player-content {
@@ -708,7 +722,8 @@ body::before {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
     /* Cegah penyusutan (menjadi lonjong) jika teks panjang */
-    transform: translateZ(0); /* Akselerasi hardware untuk performa rotasi */
+    transform: translateZ(0);
+    /* Akselerasi hardware untuk performa rotasi */
     will-change: transform;
 }
 
@@ -925,7 +940,8 @@ body::before {
 
 .bottom-right-controls.visible {
     animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 1.2s; /* Muncul paling terakhir setelah card & music player */
+    animation-delay: 1.2s;
+    /* Muncul paling terakhir setelah card & music player */
     pointer-events: all;
 }
 
@@ -936,7 +952,7 @@ body::before {
     max-width: 250px;
     text-align: right;
     user-select: none;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     font-style: italic;
     min-height: 1.2rem;
 }
@@ -950,7 +966,9 @@ body::before {
 }
 
 @keyframes blink {
-    50% { opacity: 0; }
+    50% {
+        opacity: 0;
+    }
 }
 
 .zen-btn {
@@ -961,7 +979,7 @@ body::before {
     border: 1px solid var(--card-border);
     color: var(--text-primary);
     cursor: pointer;
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: center;
     backdrop-filter: var(--glass-blur);
@@ -984,15 +1002,19 @@ body::before {
 /* Controls Mobile Responsiveness */
 @media (max-width: 768px) {
     .bottom-right-controls {
-        bottom: 8.5rem; /* Posisi aman di atas music player */
+        bottom: 8.5rem;
+        /* Posisi aman di atas music player */
         right: 1.5rem;
-        flex-direction: row; /* Teks berada di KIRI tombol, terlihat jauh lebih natural */
+        flex-direction: row;
+        /* Teks berada di KIRI tombol, terlihat jauh lebih natural */
         align-items: center;
-        gap: 0.75rem; /* Jarak antara teks dan tombol di HP didekatkan sedikit */
+        gap: 0.75rem;
+        /* Jarak antara teks dan tombol di HP didekatkan sedikit */
     }
 
     .quote-text {
-        max-width: 200px; /* Lebar teks disesuaikan */
-        font-size: 0.75rem; 
+        max-width: 200px;
+        /* Lebar teks disesuaikan */
+        font-size: 0.75rem;
     }
 }
