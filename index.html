@@ -25,13 +25,15 @@
         <p>Touch!</p>
     </div>
 
-    <!-- Impact Frame Overlay -->
-    <div id="impact-screen" style="display: none;">
-        <h1 class="impact-text text-1">yoo</h1>
-        <h1 class="impact-text text-2">i am</h1>
+    <!-- Hello Text Overlay -->
+    <div id="hello-screen" style="display: none;">
+        <h1 class="hello-text">hello</h1>
     </div>
     <audio id="impact-sound" src="Impact.mp3"></audio>
     <audio id="ding-sound" src="ding.mp3"></audio>
+    <audio id="hello-voice" src="Hello.mp3"></audio>
+    <audio id="ready-voice" src="Lets%20get%20ready!.mp3"></audio>
+    <audio id="welcome-voice" src="welcome!.mp3"></audio>
 
     <!-- Now Playing Scene (Cinematic Transition) -->
     <div id="now-playing-screen" style="display: none;">
@@ -391,37 +393,49 @@
 
         function enterSite() {
             var entryScreen = document.getElementById('entry-screen');
-            var impactScreen = document.getElementById('impact-screen');
+            var helloScreen = document.getElementById('hello-screen');
             var npScreen = document.getElementById('now-playing-screen');
             var container = document.getElementById('main-container');
             var musicPlayer = document.getElementById('music-player');
             var controls = document.getElementById('bottom-right-controls');
 
-            // Play Impact Sound
-            var impactSound = document.getElementById('impact-sound');
-            if (impactSound) impactSound.play().catch(e => console.log(e));
+            // Play Hello Voice
+            var helloVoice = document.getElementById('hello-voice');
+            if (helloVoice) {
+                helloVoice.currentTime = 0;
+                helloVoice.play().catch(e => console.log(e));
+            }
 
-            // Start Impact Sequence
-            entryScreen.style.display = 'none';
-            impactScreen.style.display = 'flex';
-            impactScreen.classList.add('active');
-
-            // Video akan diputar nanti saat dashboard muncul agar transisi tetap hitam
-            var video = document.querySelector('.bg-video');
+            // Start Hello Sequence (No Impact Sound Effect as requested earlier)
+            entryScreen.style.opacity = '0';
+            setTimeout(() => entryScreen.style.display = 'none', 400);
+            
+            helloScreen.style.display = 'flex';
+            setTimeout(() => helloScreen.classList.add('visible'), 50);
 
             // Set Data for Now Playing Scene
             const currentSong = playlist[currentSongIndex];
             document.getElementById('np-disc').src = currentSong.cover;
 
-            // Buat efek muncul satu-satu (Staggered)
             const npTitle = document.getElementById('np-title');
             const npArtist = document.getElementById('np-artist');
             npTitle.innerText = currentSong.title;
             npArtist.innerText = currentSong.artist;
 
-            // 1. Durasi Impact Frame (Singkat)
+            // Video akan diputar nanti saat dashboard muncul agar transisi tetap hitam
+            var video = document.querySelector('.bg-video');
+
+            // 1. Durasi Hello Screen (Singkat & Elegan)
             setTimeout(function () {
-                impactScreen.style.opacity = '0';
+                helloScreen.classList.remove('visible');
+                helloScreen.classList.add('fade-out');
+                
+                // Play "Let's Get Ready" Voice
+                var readyVoice = document.getElementById('ready-voice');
+                if (readyVoice) {
+                    readyVoice.currentTime = 0;
+                    readyVoice.play().catch(e => console.log(e));
+                }
 
                 // 3. Play Now Playing Scene (Bar Filling)
                 npScreen.style.display = 'flex';
@@ -459,13 +473,20 @@
                                     void welcomeScreen.offsetWidth;
                                     welcomeScreen.classList.add('visible');
 
+                                    // Play Welcome Voice
+                                    var welcomeVoice = document.getElementById('welcome-voice');
+                                    if (welcomeVoice) {
+                                        welcomeVoice.currentTime = 0;
+                                        welcomeVoice.play().catch(e => console.log(e));
+                                    }
+
                                     // 6. Akhirnya masuk Dashboard dari scene "welcome!"
                                     setTimeout(function () {
                                         welcomeScreen.style.opacity = '0';
 
                                         setTimeout(function () {
                                             welcomeScreen.style.display = 'none';
-                                            impactScreen.style.display = 'none';
+                                            helloScreen.style.display = 'none';
 
                                     // DASHBOARD LOADING
                                     container.style.display = 'flex';
@@ -500,7 +521,7 @@
                         }, 800); // Waktu yang diberikan untuk animasi keluar npScreen (800ms sync dengan CSS)
                     }, 800); // Pause tambahan (800ms) setelah bar 100%
                 }, 2500); // 2.5 detik untuk loading bar
-            }, 600);
+            }, 1100);
         }
 
 

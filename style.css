@@ -993,97 +993,39 @@ body::before {
     height: 16px;
 }
 
-/* --- Impact Frame Animation --- */
-#impact-screen {
+/* --- Hello Text Scene --- */
+#hello-screen {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 3000;
+    background: #000;
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #000; /* Solid black transition */
     pointer-events: none;
-    transition: opacity 0.5s;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#impact-screen.active {
-    animation: impactBg 0.6s ease-out forwards;
-}
-
-#impact-screen.active .impact-text.text-1 {
-    animation: impactZoom 0.3s cubic-bezier(0.1, 1, 0, 1) forwards;
-}
-
-#impact-screen.active .impact-text.text-2 {
-    animation: impactZoom 0.3s cubic-bezier(0.1, 1, 0, 1) 0.3s forwards;
-}
-
-@keyframes impactBg {
-    0% {
-        background-color: #000;
-    }
-
-    15% {
-        background-color: #fff;
-    }
-
-    30% {
-        background-color: #000;
-    }
-
-    50% {
-        background-color: #fff;
-    }
-
-    70% {
-        background-color: #000;
-    }
-
-    100% {
-        background-color: transparent;
-    }
-}
-
-@keyframes impactZoom {
-    0% {
-        transform: scale(0.5);
-        color: #fff;
-        opacity: 1;
-        text-shadow: none;
-    }
-
-    30% {
-        transform: scale(1.5) skewX(20deg);
-        color: #000;
-        opacity: 1;
-    }
-
-    60% {
-        transform: scale(2.2) skewX(-20deg);
-        color: #fff;
-        opacity: 1;
-        filter: invert(1);
-        text-shadow: 0 0 40px #fff;
-    }
-
-    100% {
-        transform: scale(4);
-        opacity: 0;
-        filter: blur(5px);
-    }
-}
-
-.impact-text {
-    position: absolute;
-    font-size: 15vw;
-    font-weight: 900;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    text-transform: uppercase;
+.hello-text {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: 0.4em;
     opacity: 0;
-    letter-spacing: -0.05em;
-    margin: 0;
+    transform: scale(0.9);
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#hello-screen.visible .hello-text {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#hello-screen.fade-out {
+    opacity: 0;
 }
 
 /* --- Bottom Right Controls (Credits & Zen Mode) --- */
