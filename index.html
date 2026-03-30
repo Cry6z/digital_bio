@@ -277,7 +277,7 @@
 
             // Reset Marquee
             songTitleContainer.classList.remove('marquee');
-            songTitleSpan.innerHTML = title; 
+            songTitleSpan.innerHTML = title;
 
             // Kita tunggu sejenak agar browser memproses perubahan teks sebelum dihitung lebarnya
             setTimeout(() => {
@@ -288,10 +288,10 @@
                     const pixelsPerSecond = 22; // Pelan (sesuai request)
                     const overflow = textWidth - containerWidth;
                     const scrollDuration = textWidth / pixelsPerSecond;
-                    
+
                     // Karena scrolling berlangsung di persentase 15% - 75% (total 60% dari durasi)
                     const totalDuration = scrollDuration / 0.6;
-                    
+
                     // Simpan variabel jarak geser tepat di ujung teks (untuk stop di "slowed")
                     songTitleSpan.style.setProperty('--scroll-distance', `-${overflow + 2}px`);
                     songTitleContainer.style.setProperty('--marquee-duration', `${totalDuration}s`);
@@ -351,11 +351,11 @@
                 var container = document.getElementById('main-container');
                 container.style.display = 'flex';
                 container.classList.add('loaded');
-                
+
                 // Munculkan player melayang
-                document.getElementById('music-player').style.display = 'flex'; 
+                document.getElementById('music-player').style.display = 'flex';
                 // Muat lagu SETELAH player tampil agar ukurannya terbaca (marquee check)
-                loadSong(currentSongIndex); 
+                loadSong(currentSongIndex);
 
                 var controls = document.getElementById('bottom-right-controls');
                 controls.style.display = 'flex';

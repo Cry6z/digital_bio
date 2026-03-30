@@ -630,34 +630,38 @@ body::before {
     opacity: 0;
     will-change: transform, opacity;
     /* --- Animasi Transisi Zen Mode --- */
-    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
-                backdrop-filter 0.4s ease, 
-                background 0.4s ease, 
-                border-color 0.4s ease;
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+        backdrop-filter 0.4s ease,
+        background 0.4s ease,
+        border-color 0.4s ease;
 }
 
-.player-controls, .progress-container {
+.player-controls,
+.progress-container {
     transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.5s ease, margin 0.5s ease;
     opacity: 1;
     max-height: 100px;
     overflow: hidden;
 }
 
-.album-art-wrapper, .song-title, .song-artist {
+.album-art-wrapper,
+.song-title,
+.song-artist {
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --- Music Player Zen Mode --- */
 .music-player.zen {
     background: transparent;
-    border-color: rgba(255, 255, 255, 0.05); /* Border tipis samar */
+    border: none;
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    padding: 0.5rem 0.75rem;
-    left: 1.5rem;
-    bottom: 1.5rem;
-    width: fit-content;
+    padding: 0;
+    left: 2.5rem;
+    bottom: 2.5rem;
+    width: auto;
+    max-width: none;
     gap: 0;
 }
 
@@ -671,16 +675,29 @@ body::before {
 }
 
 .music-player.zen .album-art-wrapper {
-    width: 58px;
-    height: 58px;
+    width: 80px;
+    height: 80px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.music-player.zen .song-info {
+    padding-left: 0.8rem;
+    flex: 0 0 auto;
+    width: auto;
 }
 
 .music-player.zen .song-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 2px 5px rgba(0, 0, 0, 0.5);
+    width: auto;
+    max-width: 300px;
+    overflow: hidden;
 }
 
 .music-player.zen .song-artist {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -741,10 +758,13 @@ body::before {
     }
 
     .music-player.zen {
-        bottom: 1rem;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
         width: 100%;
         justify-content: center;
         align-items: center;
+        padding: 0;
     }
 
     .album-art-wrapper {
@@ -825,7 +845,8 @@ body::before {
     margin-bottom: 0.15rem;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: clip; /* Ubah dari ellipsis agar tidak memotong saat animasi */
+    text-overflow: clip;
+    /* Ubah dari ellipsis agar tidak memotong saat animasi */
     position: relative;
     width: 100%;
 }
@@ -843,22 +864,29 @@ body::before {
 }
 
 @keyframes marquee-cycle {
-    0%, 15% {
+
+    0%,
+    15% {
         transform: translateX(0);
         opacity: 1;
     }
-    75%, 90% {
+
+    75%,
+    90% {
         transform: translateX(var(--scroll-distance, 0));
         opacity: 1;
     }
+
     90.1% {
         transform: translateX(var(--scroll-distance, 0));
         opacity: 0;
     }
+
     92% {
         transform: translateX(0);
         opacity: 0;
     }
+
     100% {
         transform: translateX(0);
         opacity: 1;
